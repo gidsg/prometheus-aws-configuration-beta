@@ -1,3 +1,27 @@
+- job_name: dcs-federate
+  scheme: https
+  honor_labels: true
+  honor_timestamps: true
+  metrics_path: '/federate'
+  params:
+    "match[]":
+    # fetch everything (via https://stackoverflow.com/a/39253848 )
+    - '{__name__=~".+"}'
+  static_configs:
+  - targets:
+    - dcs-sandbox-prometheus.cloudapps.digital
+    labels: # although maybe these could be external_labels on the
+            # scraped prometheus?
+      space: sandbox
+      org: gds-document-checking-service
+      region: ireland
+  - targets:
+    - dcs-integration-prometheus.cloudapps.digital
+    labels:
+      space: integration
+      org: gds-document-checking-service
+      region: ireland
+
 - job_name: paas_elasticsearch_for_dm
   scheme: https
   basic_auth:
